@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36811.4 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrXiaVoice2", "DrXiaVoice2.csproj", "{E8077209-F71F-43D9-9E14-5B82AE48D6B7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		ExportDebug|Any CPU = ExportDebug|Any CPU
+		ExportRelease|Any CPU = ExportRelease|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E8077209-F71F-43D9-9E14-5B82AE48D6B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8077209-F71F-43D9-9E14-5B82AE48D6B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8077209-F71F-43D9-9E14-5B82AE48D6B7}.ExportDebug|Any CPU.ActiveCfg = ExportDebug|Any CPU
+		{E8077209-F71F-43D9-9E14-5B82AE48D6B7}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
+		{E8077209-F71F-43D9-9E14-5B82AE48D6B7}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
+		{E8077209-F71F-43D9-9E14-5B82AE48D6B7}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5204C16E-0251-4935-B0DD-140246586577}
+	EndGlobalSection
+EndGlobal
