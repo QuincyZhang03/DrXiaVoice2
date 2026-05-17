@@ -1,4 +1,5 @@
 using BaseLib.Audio;
+using BaseLib.Config;
 using Godot;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Combat;
@@ -20,24 +21,57 @@ namespace DrXiaVoice2.DrXiaVoice2Code
     public partial class MainFile : Node
     {
         public const string ModId = "DrXiaVoice2"; //At the moment, this is used only for the Logger and harmony names.
+        public static readonly Dictionary<string, ModSound> VoiceCache = [];
+        //出现过的语音进行缓存，避免重复创建对象造成的内存溢出问题。
 
         public static MegaCrit.Sts2.Core.Logging.Logger Logger { get; } = new(ModId, MegaCrit.Sts2.Core.Logging.LogType.Generic);
 
         public static void Initialize()
         {
+            ModConfigRegistry.Register(ModId, new DrXiaVoiceConfig());
             Harmony harmony = new(ModId);
             harmony.PatchAll();
+        }
+
+        public static void PlayVoice(string voicepath)
+        {
+            if (DrXiaVoiceConfig.VoiceEnabled)
+            {
+                ModSound voice;
+                if (!VoiceCache.TryGetValue(voicepath, out voice))
+                {
+                    voice = new ModSound(voicepath);
+                    VoiceCache[voicepath] = voice;
+                }
+                ModAudio.PlaySound(voice, DrXiaVoiceConfig.VoiceVolume);
+            }
         }
     }
 
     [HarmonyPatch(typeof(Hook))]
     [HarmonyPatch("BeforeCardPlayed")]
-    public class VoicePatch
+    public class CardVoicePatch
     {
         static void Prefix(CombatState combatState, CardPlay cardPlay)
         {
             string CardID = cardPlay.Card.Id.Entry.ToLowerInvariant();
-            ModAudio.PlaySound(new($"res://DrXiaVoice2/voices/cards/{CardID}.mp3"));
+            if (CardID.StartsWith("strike_"))
+            {
+                CardID = "strike";
+            }
+            else if (CardID.StartsWith("defend_"))
+            {
+                CardID = "defend";
+            }
+            else if (CardID.StartsWith("mad_science_"))
+            {
+                CardID = "mad_science";
+            }
+            else if (cardPlay.Card.EnergyCost.Canonical == -1)
+            {
+                CardID = "GetOut";
+            }
+            MainFile.PlayVoice($"res://DrXiaVoice2/voices/cards/{CardID}.mp3");
         }
     }
 
@@ -48,7 +82,7 @@ namespace DrXiaVoice2.DrXiaVoice2Code
     {
         static void Prefix()
         {
-            ModAudio.PlaySound(new("res://DrXiaVoice2/voices/others/end_turn.mp3"));
+            MainFile.PlayVoice("res://DrXiaVoice2/voices/others/end_turn.mp3");
         }
     }
 
@@ -58,7 +92,7 @@ namespace DrXiaVoice2.DrXiaVoice2Code
     {
         static void Prefix(IRunState runState, CombatState? combatState, CombatRoom room)
         {
-            ModAudio.PlaySound(new($"res://DrXiaVoice2/voices/others/little_win.mp3"));
+            MainFile.PlayVoice($"res://DrXiaVoice2/voices/others/little_win.mp3");
         }
     }
 
@@ -67,7 +101,7 @@ namespace DrXiaVoice2.DrXiaVoice2Code
     {
         static void PlayHereSound()
         {
-            ModAudio.PlaySound(new($"res://DrXiaVoice2/voices/others/here.mp3"));
+            MainFile.PlayVoice($"res://DrXiaVoice2/voices/others/here.mp3");
         }
 
         [HarmonyPrefix]
@@ -120,7 +154,7 @@ namespace DrXiaVoice2.DrXiaVoice2Code
         {
             if (!SelectedAnyCards) //没选卡就关闭，播放“不要”
             {
-                ModAudio.PlaySound(new($"res://DrXiaVoice2/voices/others/skip.mp3"));
+                MainFile.PlayVoice($"res://DrXiaVoice2/voices/others/skip.mp3");
             }
         }
     }
@@ -145,12 +179,19 @@ namespace DrXiaVoice2.DrXiaVoice2Code
         {
             if (RunWin)
             {
-                ModAudio.PlaySound(new($"res://DrXiaVoice2/voices/others/game_win.mp3"));
+                MainFile.PlayVoice($"res://DrXiaVoice2/voices/others/game_win.mp3");
             }
             else
             {
-                ModAudio.PlaySound(new($"res://DrXiaVoice2/voices/others/lose.mp3"));
+                MainFile.PlayVoice($"res://DrXiaVoice2/voices/others/lose.mp3");
             }
         }
+    }
+
+    public class DrXiaVoiceConfig : SimpleModConfig
+    {
+        public static bool VoiceEnabled { get; set; } = true;
+        [ConfigSlider(-5, 5, 0.1)]
+        public static float VoiceVolume { get; set; } = 0;
     }
 }
