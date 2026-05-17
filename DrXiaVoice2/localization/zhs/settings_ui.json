@@ -1,5 +1,6 @@
 ﻿{
 	"DRXIAVOICE2.mod_title":"夏老师语音包2",
 	"DRXIAVOICE2-VOICE_ENABLED.title":"启用语音包",
-	"DRXIAVOICE2-VOICE_VOLUME.title":"语音包音量调节"
+	"DRXIAVOICE2-VOICE_VOLUME.title":"语音包音量调节",
+	"DRXIAVOICE2-ANNOUNCE_TEAMMATES.title":"播报队友出牌"
 }

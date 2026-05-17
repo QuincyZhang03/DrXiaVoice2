@@ -3,7 +3,11 @@ using BaseLib.Config;
 using Godot;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Combat;
+using MegaCrit.Sts2.Core.Context;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Entities.Multiplayer;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Hooks;
 using MegaCrit.Sts2.Core.Modding;
 using MegaCrit.Sts2.Core.Nodes.Combat;
@@ -13,6 +17,7 @@ using MegaCrit.Sts2.Core.Nodes.Screens.Map;
 using MegaCrit.Sts2.Core.Rewards;
 using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Runs;
+using System.Linq;
 using RunState = MegaCrit.Sts2.Core.Runs.RunState;
 
 namespace DrXiaVoice2.DrXiaVoice2Code
@@ -54,24 +59,29 @@ namespace DrXiaVoice2.DrXiaVoice2Code
     {
         static void Prefix(CombatState combatState, CardPlay cardPlay)
         {
+
             string CardID = cardPlay.Card.Id.Entry.ToLowerInvariant();
-            if (CardID.StartsWith("strike_"))
+            Player CardOwner = cardPlay.Card.Owner;
+            if (DrXiaVoiceConfig.AnnounceTeammates || LocalContext.IsMe(CardOwner))
             {
-                CardID = "strike";
+                if (CardID.StartsWith("strike_"))
+                {
+                    CardID = "strike";
+                }
+                else if (CardID.StartsWith("defend_"))
+                {
+                    CardID = "defend";
+                }
+                else if (CardID.StartsWith("mad_science_"))
+                {
+                    CardID = "mad_science";
+                }
+                else if (cardPlay.Card.EnergyCost.Canonical == -1)
+                {
+                    CardID = "GetOut";
+                }
+                MainFile.PlayVoice($"res://DrXiaVoice2/voices/cards/{CardID}.mp3");
             }
-            else if (CardID.StartsWith("defend_"))
-            {
-                CardID = "defend";
-            }
-            else if (CardID.StartsWith("mad_science_"))
-            {
-                CardID = "mad_science";
-            }
-            else if (cardPlay.Card.EnergyCost.Canonical == -1)
-            {
-                CardID = "GetOut";
-            }
-            MainFile.PlayVoice($"res://DrXiaVoice2/voices/cards/{CardID}.mp3");
         }
     }
 
@@ -191,7 +201,11 @@ namespace DrXiaVoice2.DrXiaVoice2Code
     public class DrXiaVoiceConfig : SimpleModConfig
     {
         public static bool VoiceEnabled { get; set; } = true;
+
         [ConfigSlider(-5, 5, 0.1)]
         public static float VoiceVolume { get; set; } = 0;
+
+        public static bool AnnounceTeammates { get; set; } = false;
+
     }
 }
