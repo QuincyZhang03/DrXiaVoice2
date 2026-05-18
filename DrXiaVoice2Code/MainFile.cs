@@ -40,6 +40,11 @@ namespace DrXiaVoice2.DrXiaVoice2Code
 
         public static void PlayVoice(string voicepath)
         {
+            PlayVoice(voicepath, 0);
+        }
+
+        public static void PlayVoice(string voicepath, float volumeAdd)
+        {
             if (DrXiaVoiceConfig.VoiceEnabled)
             {
                 ModSound voice;
@@ -48,7 +53,7 @@ namespace DrXiaVoice2.DrXiaVoice2Code
                     voice = new ModSound(voicepath);
                     VoiceCache[voicepath] = voice;
                 }
-                ModAudio.PlaySound(voice, DrXiaVoiceConfig.VoiceVolume);
+                ModAudio.PlaySound(voice, DrXiaVoiceConfig.VoiceVolume + volumeAdd);
             }
         }
     }
@@ -76,11 +81,14 @@ namespace DrXiaVoice2.DrXiaVoice2Code
                 {
                     CardID = "mad_science";
                 }
-                else if (cardPlay.Card.EnergyCost.Canonical == -1)
+                else if (cardPlay.Card.EnergyCost.Canonical == -1 ||
+                    (cardPlay.Card.Type == CardType.Status && CardID != "frantic_escape") ||
+                    cardPlay.Card.Type == CardType.Curse)
                 {
                     CardID = "GetOut";
                 }
-                MainFile.PlayVoice($"res://DrXiaVoice2/voices/cards/{CardID}.mp3");
+                float decrease = LocalContext.IsMe(CardOwner) ? 0 : DrXiaVoiceConfig.TeammatesVolumeDecrease;
+                MainFile.PlayVoice($"res://DrXiaVoice2/voices/cards/{CardID}.mp3", decrease);
             }
         }
     }
@@ -202,10 +210,20 @@ namespace DrXiaVoice2.DrXiaVoice2Code
     {
         public static bool VoiceEnabled { get; set; } = true;
 
+        [ConfigVisibleIf(nameof(VoiceEnabled))]
         [ConfigSlider(-5, 5, 0.1)]
         public static float VoiceVolume { get; set; } = 0;
 
+        [ConfigVisibleIf(nameof(VoiceEnabled))]
         public static bool AnnounceTeammates { get; set; } = false;
+
+
+        [ConfigIgnore]
+        public static bool ShouldShowTeammatesVolume { get => VoiceEnabled && AnnounceTeammates; }
+
+        [ConfigVisibleIf(nameof(ShouldShowTeammatesVolume))]
+        [ConfigSlider(-5, 0, 0.1)]
+        public static float TeammatesVolumeDecrease { get; set; } = -2f;
 
     }
 }
