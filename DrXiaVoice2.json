@@ -3,7 +3,7 @@
   "name": "Dr.Xia's Voice 2",
   "author": "SummerQuincy",
   "description": "Dr.Xia's Voice Mod for Slay the Spire 2, reading out the name of a card in Chinese upon its use.'",
-  "version": "v2.0",
+  "version": "2.0",
   "has_pck": true,
   "has_dll": true,
   "dependencies": ["BaseLib"],
