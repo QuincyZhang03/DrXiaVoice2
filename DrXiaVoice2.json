@@ -2,7 +2,7 @@
   "id": "DrXiaVoice2",
   "name": "夏老师语音包2",
   "author": "SummerQuincy",
-  "description": "Dr.Xia's Voice Mod for Slay the Spire 2, reading out the name of a card in Chinese upon its use.'",
+  "description": "适用于杀戮尖塔2的夏老师语音包，每打一张牌自动读牌。",
   "version": "2.0",
   "min_game_version": "0.103.2",
   "has_pck": true,
