@@ -53,7 +53,14 @@ namespace DrXiaVoice2.DrXiaVoice2Code
                     voice = new ModSound(voicepath);
                     VoiceCache[voicepath] = voice;
                 }
-                ModAudio.PlaySound(voice, DrXiaVoiceConfig.VoiceVolume + volumeAdd);
+                try
+                {
+                    ModAudio.PlaySound(voice, DrXiaVoiceConfig.VoiceVolume + volumeAdd);
+                }
+                catch (ObjectDisposedException e)
+                {
+                    Logger.Error($"Failed to play voice {voicepath}: {e.Message}");
+                }
             }
         }
     }
