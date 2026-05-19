@@ -17,7 +17,6 @@ using MegaCrit.Sts2.Core.Nodes.Screens.Map;
 using MegaCrit.Sts2.Core.Rewards;
 using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Runs;
-using System.Linq;
 using RunState = MegaCrit.Sts2.Core.Runs.RunState;
 
 namespace DrXiaVoice2.DrXiaVoice2Code
@@ -53,7 +52,14 @@ namespace DrXiaVoice2.DrXiaVoice2Code
                     voice = new ModSound(voicepath);
                     VoiceCache[voicepath] = voice;
                 }
-                ModAudio.PlaySound(voice, DrXiaVoiceConfig.VoiceVolume + volumeAdd);
+                try
+                {
+                    ModAudio.PlaySound(voice, DrXiaVoiceConfig.VoiceVolume + volumeAdd);
+                }
+                catch (Exception e)
+                {
+                    Logger.Error($"Failed to play voice {voicepath}: {e.Message}");
+                }
             }
         }
     }
