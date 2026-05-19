@@ -4,8 +4,9 @@
   "author": "SummerQuincy",
   "description": "适用于杀戮尖塔2的夏老师语音包，每打一张牌自动读牌。",
   "version": "2.0.2",
+  "min_game_version": "0.103.2",
   "has_pck": true,
   "has_dll": true,
-  "dependencies": ["BaseLib"],
+  "dependencies": [{"id":"BaseLib","min_version":"3.1.3"}],
   "affects_gameplay": false
 }
