@@ -57,7 +57,7 @@ namespace DrXiaVoice2.DrXiaVoice2Code
                 {
                     ModAudio.PlaySound(voice, DrXiaVoiceConfig.VoiceVolume + volumeAdd);
                 }
-                catch (ObjectDisposedException e)
+                catch (Exception e)
                 {
                     Logger.Error($"Failed to play voice {voicepath}: {e.Message}");
                 }
