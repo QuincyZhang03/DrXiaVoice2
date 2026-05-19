@@ -77,7 +77,7 @@ namespace DrXiaVoice2.DrXiaVoice2Code
                 {
                     CardID = "defend";
                 }
-                else if (CardID.StartsWith("mad_science_"))
+                else if (CardID.StartsWith("mad_science-"))
                 {
                     CardID = "mad_science";
                 }
