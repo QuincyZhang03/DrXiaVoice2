@@ -1,4 +1,4 @@
-using BaseLib.Audio;
+ï»¿using BaseLib.Audio;
 using BaseLib.Config;
 using Godot;
 using HarmonyLib;
@@ -15,6 +15,7 @@ using MegaCrit.Sts2.Core.Nodes.Screens.Map;
 using MegaCrit.Sts2.Core.Rewards;
 using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Runs;
+using System.Text;
 using RunState = MegaCrit.Sts2.Core.Runs.RunState;
 
 namespace DrXiaVoice2.DrXiaVoice2Code
@@ -24,7 +25,7 @@ namespace DrXiaVoice2.DrXiaVoice2Code
     {
         public const string ModId = "DrXiaVoice2"; //At the moment, this is used only for the Logger and harmony names.
         public static readonly Dictionary<string, ModSound> VoiceCache = [];
-        //³öÏÖ¹ıµÄÓïÒô½øĞĞ»º´æ£¬±ÜÃâÖØ¸´´´½¨¶ÔÏóÔì³ÉµÄÄÚ´æÒç³öÎÊÌâ¡£
+        //å‡ºç°è¿‡çš„è¯­éŸ³è¿›è¡Œç¼“å­˜ï¼Œé¿å…é‡å¤åˆ›å»ºå¯¹è±¡é€ æˆçš„å†…å­˜æº¢å‡ºé—®é¢˜ã€‚
 
         public static MegaCrit.Sts2.Core.Logging.Logger Logger { get; } = new(ModId, MegaCrit.Sts2.Core.Logging.LogType.Generic);
 
@@ -174,7 +175,7 @@ namespace DrXiaVoice2.DrXiaVoice2Code
         [HarmonyPatch("AfterOverlayClosed")]
         static void OverlayClosed()
         {
-            if (!SelectedAnyCards) //Ã»Ñ¡¿¨¾Í¹Ø±Õ£¬²¥·Å¡°²»Òª¡±
+            if (!SelectedAnyCards) //æ²¡é€‰å¡å°±å…³é—­ï¼Œæ’­æ”¾â€œä¸è¦â€
             {
                 MainFile.PlayVoice($"res://DrXiaVoice2/voices/others/skip.mp3");
             }

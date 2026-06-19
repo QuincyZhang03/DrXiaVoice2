@@ -1,11 +1,12 @@
-{
+﻿{
   "id": "DrXiaVoice2",
   "name": "夏老师语音包2",
   "author": "SummerQuincy",
   "description": "适用于杀戮尖塔2的夏老师语音包，每打一张牌自动读牌。",
-  "version": "2.0.2",
+  "version": "2.1.0",
+  "min_game_version": "0.107.1",
   "has_pck": true,
   "has_dll": true,
-  "dependencies": ["BaseLib"],
+  "dependencies": [{"id":"BaseLib","min_version":"3.2.1"}],
   "affects_gameplay": false
 }
