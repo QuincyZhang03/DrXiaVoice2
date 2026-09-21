@@ -15,7 +15,6 @@ using MegaCrit.Sts2.Core.Nodes.Screens.Map;
 using MegaCrit.Sts2.Core.Rewards;
 using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Runs;
-using System.Text;
 using RunState = MegaCrit.Sts2.Core.Runs.RunState;
 
 namespace DrXiaVoice2.DrXiaVoice2Code
